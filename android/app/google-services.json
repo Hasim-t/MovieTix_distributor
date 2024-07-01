@@ -1,0 +1,126 @@
+{
+  "project_info": {
+    "project_number": "1081068675864",
+    "project_id": "movie-817bf",
+    "storage_bucket": "movie-817bf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1081068675864:android:ac096d576ede6c9331f46d",
+        "android_client_info": {
+          "package_name": "com.example.movie"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1081068675864-t1drc2ld16eg0m2597rrg8vli9l4j1vv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.movie",
+            "certificate_hash": "4ebaf5b62bdc4bf70c6bfb5b2fd8249a3c9a2989"
+          }
+        },
+        {
+          "client_id": "1081068675864-qsvqd9v6id2m1im4jpk8m7j4f66t4ltt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCc6QXp_IfHlPXvez9_Z_4m2RMUQYeIGE8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1081068675864-qsvqd9v6id2m1im4jpk8m7j4f66t4ltt.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1081068675864-oqqapm3loc8a0n0qa0flgo1lpja6skao.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.movietixOwner"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1081068675864:android:429ccd04aa41cd7f31f46d",
+        "android_client_info": {
+          "package_name": "com.example.movietix_distributor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1081068675864-qsvqd9v6id2m1im4jpk8m7j4f66t4ltt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCc6QXp_IfHlPXvez9_Z_4m2RMUQYeIGE8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1081068675864-qsvqd9v6id2m1im4jpk8m7j4f66t4ltt.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1081068675864-oqqapm3loc8a0n0qa0flgo1lpja6skao.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.movietixOwner"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1081068675864:android:ca9d772f45686c1d31f46d",
+        "android_client_info": {
+          "package_name": "com.example.theate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1081068675864-qsvqd9v6id2m1im4jpk8m7j4f66t4ltt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCc6QXp_IfHlPXvez9_Z_4m2RMUQYeIGE8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1081068675864-qsvqd9v6id2m1im4jpk8m7j4f66t4ltt.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1081068675864-oqqapm3loc8a0n0qa0flgo1lpja6skao.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.movietixOwner"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
