@@ -41,6 +41,9 @@ dependencies:
   flutter_bloc: ^8.1.6
   bloc: ^8.1.4
   google_sign_in: ^6.2.1
+  provider: ^6.1.2
+  shared_preferences: ^2.2.3
+  flashy_tab_bar2: ^0.0.10
 
 dev_dependencies:
   flutter_test:
