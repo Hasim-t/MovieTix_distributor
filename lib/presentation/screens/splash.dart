@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:movietix_distributor/presentation/screens/homescreen.dart';
 import 'package:provider/provider.dart';
 import 'package:movietix_distributor/business_logis/provider/authprovider.dart';
 import 'package:movietix_distributor/presentation/constants/colors.dart';
@@ -26,7 +27,7 @@ class Splash extends StatelessWidget {
               );
             } else {
               if (authProvider.isAuthenticated) {
-                return  ProfileScreen();
+                return  Homescreen();
               } else {
                 return LoginScreen();
               }
