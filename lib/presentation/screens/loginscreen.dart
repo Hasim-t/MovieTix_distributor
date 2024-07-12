@@ -1,13 +1,14 @@
 // lib/presentation/screens/loginscreen.dart
 import 'package:flutter/material.dart';
 import 'package:movietix_distributor/business_logis/provider/authprovider.dart';
+import 'package:movietix_distributor/presentation/screens/homescreen.dart';
 import 'package:provider/provider.dart';
 import 'package:movietix_distributor/presentation/constants/colors.dart';
-import 'package:movietix_distributor/presentation/screens/profile.dart';
+
 import 'package:movietix_distributor/presentation/widgets/textformfield.dart';
 
 class LoginScreen extends StatelessWidget {
-  LoginScreen({Key? key}) : super(key: key);
+  LoginScreen({super.key});
 
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -31,15 +32,15 @@ class LoginScreen extends StatelessWidget {
                   CustomTextFormField(
                     controller: usernameController,
                     hintText: "Username",
-                    prefixIcon: Icon(Icons.person),
+                    prefixIcon: const Icon(Icons.person),
                   ),
-                  SizedBox(height: 40),
+                const   SizedBox(height: 40),
                   CustomTextFormField(
                     controller: passwordController,
                     hintText: "Password",
                     obscureText: true,
                   ),
-                  SizedBox(height: 40),
+                 const  SizedBox(height: 40),
                   ElevatedButton(
                     onPressed: () async {
                       try {
@@ -48,7 +49,7 @@ class LoginScreen extends StatelessWidget {
                           passwordController.text,
                         );
                         Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(builder: (_) => ProfileScreen()),
+                          MaterialPageRoute(builder: (_) => const  BottomNav()),
                         );
                       } catch (e) {
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -56,7 +57,7 @@ class LoginScreen extends StatelessWidget {
                         );
                       }
                     },
-                    child: Text('Login'),
+                    child: const Text('Login'),
                   ),
                 ],
               ),

@@ -1,36 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:movietix_distributor/business_logis/provider/bottom_provider.dart';
 import 'package:movietix_distributor/presentation/constants/colors.dart';
-import 'package:movietix_distributor/presentation/screens/moviespage.dart';
-import 'package:movietix_distributor/presentation/screens/profile.dart';
-
-import 'package:movietix_distributor/presentation/screens/upcomingmovie.dart';
-
-class Homescreen extends StatefulWidget {
-  const Homescreen({super.key});
-
-  @override
-  State<Homescreen> createState() => _HomescreenState();
-}
-class _HomescreenState extends State<Homescreen> {
-  int _selectIndex = 0;
-  final List _pages = [Moviespage(), Upcomingmovie(), ProfileScreen()];
-
-  void _onItemsTapped(int index) {
-    if (index >= 0 && index < _pages.length) {
-      setState(() {
-        _selectIndex = index;
-      });
-    }
-  }
+import 'package:provider/provider.dart';
+class BottomNav extends StatelessWidget {
+  const BottomNav({super.key});
 
   @override
   Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (context) => BottomProvider(),
+      child: _BottomNavContent(),
+    );
+  }
+}
+class _BottomNavContent extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final provider = Provider.of<BottomProvider>(context);
+
     return Scaffold(
       backgroundColor: MyColor().darkblue,
-      body: _pages[_selectIndex],
+      body: provider.pages[provider.selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
-        onTap: _onItemsTapped,
-        currentIndex: _selectIndex,
+        onTap: provider.setSelectedIndex,
+        currentIndex: provider.selectedIndex, 
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             label: "",

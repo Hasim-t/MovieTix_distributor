@@ -27,7 +27,7 @@ class Splash extends StatelessWidget {
               );
             } else {
               if (authProvider.isAuthenticated) {
-                return  Homescreen();
+                return  BottomNav();
               } else {
                 return LoginScreen();
               }
