@@ -1,7 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:movietix_distributor/business_logis/provider/adding_provider.dart';
 import 'package:movietix_distributor/business_logis/provider/authprovider.dart';
 import 'package:movietix_distributor/business_logis/provider/bottom_provider.dart';
+
+import 'package:movietix_distributor/business_logis/provider/movielist_provider.dart';
 import 'package:movietix_distributor/data/repositories/firebase_options.dart';
 import 'package:movietix_distributor/presentation/screens/splash.dart';
 import 'package:provider/provider.dart';
@@ -22,7 +25,11 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context)=>AuthProvider()),
-        ChangeNotifierProvider(create: (context)=>BottomProvider())
+        ChangeNotifierProvider(create: (context)=>BottomProvider()),
+        ChangeNotifierProvider(create: (context)=>MovieProvider()),
+        ChangeNotifierProvider(create: (context)=>MovieListProvider()),
+        
+
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
