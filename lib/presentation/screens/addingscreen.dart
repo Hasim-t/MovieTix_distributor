@@ -133,10 +133,10 @@ void deleteCast(int index) {
     final castImageUrl = await castStorageRef.getDownloadURL();
     
     castData.add({
-      'actorName': cast['actorName']!,
-      'castName': cast['castName']!,
-      'imageUrl': castImageUrl,
-    });
+  'actorName': cast['actorName'] as String,
+  'castName': cast['castName'] as String,
+  'imageUrl': castImageUrl,
+});
   }
 
   // Prepare movie data
