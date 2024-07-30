@@ -15,6 +15,9 @@ class MovieProvider extends ChangeNotifier {
 
   List<Map<String, String>> castList = [];
 
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+
   void setImage(File? image) {
     _image = image;
     notifyListeners();
@@ -38,39 +41,42 @@ class MovieProvider extends ChangeNotifier {
       return;
     }
 
-    // Upload movie image to Firebase Storage
-    final storageRef = FirebaseStorage.instance.ref().child('movie_images/${DateTime.now().toString()}');
-    await storageRef.putFile(_image!);
-    final imageUrl = await storageRef.getDownloadURL();
+    _isLoading = true;
+    notifyListeners();
 
-    // Upload cast images and get their download URLs
-    List<Map<String, String>> castData = [];
-    for (var cast in castList) {
-      final castImageFile = File(cast['imagePath']!);
-      final castStorageRef = FirebaseStorage.instance.ref().child('cast_images/${DateTime.now().toString()}_${cast['actorName']}');
-      await castStorageRef.putFile(castImageFile);
-      final castImageUrl = await castStorageRef.getDownloadURL();
-      
-      castData.add({
-        'actorName': cast['actorName'] as String,
-        'castName': cast['castName'] as String,
-        'imageUrl': castImageUrl,
-      });
-    }
-
-    // Prepare movie data
-    final movieData = {
-      'name': movienamecontroller.text,
-      'language': languagecontroller.text,
-      'category': categorycontroller.text,
-      'certification': certificationcontroller.text,
-      'description': descriptioncontroller.text,
-      'imageUrl': imageUrl,
-      'cast': castData,
-    };
-
-    // Add data to Firestore
     try {
+      // Upload movie image to Firebase Storage
+      final storageRef = FirebaseStorage.instance.ref().child('movie_images/${DateTime.now().toString()}');
+      await storageRef.putFile(_image!);
+      final imageUrl = await storageRef.getDownloadURL();
+
+      // Upload cast images and get their download URLs
+      List<Map<String, String>> castData = [];
+      for (var cast in castList) {
+        final castImageFile = File(cast['imagePath']!);
+        final castStorageRef = FirebaseStorage.instance.ref().child('cast_images/${DateTime.now().toString()}_${cast['actorName']}');
+        await castStorageRef.putFile(castImageFile);
+        final castImageUrl = await castStorageRef.getDownloadURL();
+        
+        castData.add({
+          'actorName': cast['actorName'] as String,
+          'castName': cast['castName'] as String,
+          'imageUrl': castImageUrl,
+        });
+      }
+
+      // Prepare movie data
+      final movieData = {
+        'name': movienamecontroller.text,
+        'language': languagecontroller.text,
+        'category': categorycontroller.text,
+        'certification': certificationcontroller.text,
+        'description': descriptioncontroller.text,
+        'imageUrl': imageUrl,
+        'cast': castData,
+      };
+
+      // Add data to Firestore
       await FirebaseFirestore.instance.collection('movies').add(movieData);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Movie added successfully')),
@@ -81,6 +87,9 @@ class MovieProvider extends ChangeNotifier {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error adding movie: $e')),
       );
+    } finally {
+      _isLoading = false;
+      notifyListeners();
     }
   }
 

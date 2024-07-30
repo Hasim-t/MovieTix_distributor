@@ -7,7 +7,7 @@ import 'package:movietix_distributor/presentation/screens/editingscreen.dart';
 import 'package:provider/provider.dart';
 
 class Moviespage extends StatelessWidget {
-  const Moviespage({Key? key}) : super(key: key);
+  const Moviespage({super.key});
 
   @override
   Widget build(BuildContext context) {
