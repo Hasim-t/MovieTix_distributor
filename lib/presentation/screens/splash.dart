@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:movietix_distributor/business_logis/provider/authprovider.dart';
 import 'package:movietix_distributor/presentation/constants/colors.dart';
 import 'package:movietix_distributor/presentation/screens/loginscreen.dart';
-import 'package:movietix_distributor/presentation/screens/profile.dart';
+
 
 class Splash extends StatelessWidget {
   const Splash({Key? key}) : super(key: key);

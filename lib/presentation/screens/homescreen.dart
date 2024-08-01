@@ -20,14 +20,22 @@ class _BottomNavContent extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: MyColor().darkblue,
+    
       body: provider.pages[provider.selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: MyColor().darkblue,
+          unselectedItemColor: MyColor().gray,
+
         onTap: provider.setSelectedIndex,
         currentIndex: provider.selectedIndex, 
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             label: "",
             icon: Icon(Icons.home),
+          ),
+            BottomNavigationBarItem(
+            label: "",
+            icon: Icon(Icons.tv),
           ),
           BottomNavigationBarItem(
             label: "",
