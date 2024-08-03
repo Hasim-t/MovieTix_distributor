@@ -6,10 +6,14 @@ import 'dart:io';
 
 class MovieEditProvider extends ChangeNotifier {
   late TextEditingController movienamecontroller;
-  late TextEditingController languagecontroller;
-  late TextEditingController categorycontroller;
   late TextEditingController certificationcontroller;
   late TextEditingController descriptioncontroller;
+
+  String? selectedLanguage;
+  String? selectedCategory;
+
+  final List<String> languages = ['English', 'Spanish', 'French', 'German', 'Chinese', 'Japanese']; // Add more as needed
+  final List<String> categories = ['Action', 'Comedy', 'Drama', 'Thriller', 'Sci-Fi', 'Horror']; // Add more as needed
 
   File? _image;
   String? _imageUrl;
@@ -17,16 +21,26 @@ class MovieEditProvider extends ChangeNotifier {
 
   MovieEditProvider(Map<String, dynamic> movieData) {
     movienamecontroller = TextEditingController(text: movieData['name']);
-    languagecontroller = TextEditingController(text: movieData['language']);
-    categorycontroller = TextEditingController(text: movieData['category']);
     certificationcontroller = TextEditingController(text: movieData['certification']);
     descriptioncontroller = TextEditingController(text: movieData['description']);
+    selectedLanguage = movieData['language'];
+    selectedCategory = movieData['category'];
     _imageUrl = movieData['imageUrl'];
     castList = List<Map<String, dynamic>>.from(movieData['cast'] ?? []);
   }
 
   File? get image => _image;
   String? get imageUrl => _imageUrl;
+
+  void setLanguage(String language) {
+    selectedLanguage = language;
+    notifyListeners();
+  }
+
+  void setCategory(String category) {
+    selectedCategory = category;
+    notifyListeners();
+  }
 
   Future<void> pickImage() async {
     final ImagePicker picker = ImagePicker();
@@ -57,20 +71,16 @@ class MovieEditProvider extends ChangeNotifier {
     String? imageUrl = _imageUrl;
 
     if (_image != null) {
-      // Upload new image if selected
       final storageRef = FirebaseStorage.instance.ref().child('movie_images/${DateTime.now().toString()}');
       await storageRef.putFile(_image!);
       imageUrl = await storageRef.getDownloadURL();
     }
 
-    // Update cast images if needed
     List<Map<String, dynamic>> updatedCastList = [];
     for (var cast in castList) {
       if (cast['imageUrl'] != null) {
-        // Image URL already exists, no need to upload
         updatedCastList.add(cast);
       } else if (cast['imagePath'] != null) {
-        // New image, need to upload
         final castImageFile = File(cast['imagePath']!);
         final castStorageRef = FirebaseStorage.instance.ref().child('cast_images/${DateTime.now().toString()}_${cast['actorName']}');
         await castStorageRef.putFile(castImageFile);
@@ -81,7 +91,6 @@ class MovieEditProvider extends ChangeNotifier {
           'imageUrl': castImageUrl,
         });
       } else {
-        // No image, just add the cast info
         updatedCastList.add({
           'actorName': cast['actorName']!,
           'castName': cast['castName']!,
@@ -89,18 +98,16 @@ class MovieEditProvider extends ChangeNotifier {
       }
     }
 
-    // Prepare updated movie data
     final updatedMovieData = {
       'name': movienamecontroller.text,
-      'language': languagecontroller.text,
-      'category': categorycontroller.text,
+      'language': selectedLanguage,
+      'category': selectedCategory,
       'certification': certificationcontroller.text,
       'description': descriptioncontroller.text,
       'imageUrl': imageUrl,
       'cast': updatedCastList,
     };
 
-    // Update data in Firestore
     try {
       await FirebaseFirestore.instance.collection('movies').doc(documentId).update(updatedMovieData);
       ScaffoldMessenger.of(context).showSnackBar(

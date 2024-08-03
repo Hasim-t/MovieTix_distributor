@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:movietix_distributor/presentation/constants/colors.dart';
+import 'package:movietix_distributor/presentation/widgets/dropdown_widget.dart';
 import 'package:movietix_distributor/presentation/widgets/textformfield.dart';
 import 'package:provider/provider.dart';
 import 'dart:io';
@@ -127,15 +128,20 @@ class Editingscreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      CustomTextFormField(controller: movieEditProvider.movienamecontroller, hintText: 'Movie Name'),
+                      CustomTextFormField(controller: movieEditProvider.movienamecontroller, hintText: 'Movie Name',label: 'Movie name ',),
                       const SizedBox(height: 20),
-                      CustomTextFormField(controller: movieEditProvider.languagecontroller, hintText: 'Language'),
+                      // CustomTextFormField(controller: movieEditProvider.languagecontroller, hintText: 'Language',label: 'Language',),
+                      dropdownwidgetedit(movieEdintProvider: movieEditProvider, names: 'languages', value: movieEditProvider.languages, type: 'languages', set: movieEditProvider.setLanguage),
+
                       const SizedBox(height: 20),
-                      CustomTextFormField(controller: movieEditProvider.categorycontroller, hintText: 'Category'),
+                      // CustomTextFormField(controller: movieEditProvider.categorycontroller, hintText: 'Category', label: 'Category',),
+
+                      dropdownwidgetedit(movieEdintProvider: movieEditProvider, names: 'categories', value: movieEditProvider.categories, type: 'categories', set: movieEditProvider.setCategory),
+
                       const SizedBox(height: 20),
-                      CustomTextFormField(controller: movieEditProvider.certificationcontroller, hintText: 'Certification'),
+                      CustomTextFormField(controller: movieEditProvider.certificationcontroller, hintText: 'Certification', label: 'Certification',),
                       const SizedBox(height: 20),
-                      CustomTextFormField(controller: movieEditProvider.descriptioncontroller, hintText: 'Description', maxlines: 6),
+                      CustomTextFormField(controller: movieEditProvider.descriptioncontroller, hintText: 'Description', label: 'Description',maxlines: 6),
                       const SizedBox(height: 20),
                       Text('Cast', style: TextStyle(color: MyColor().white, fontSize: 18)),
                       const SizedBox(height: 10),

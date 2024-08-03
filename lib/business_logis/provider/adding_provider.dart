@@ -5,10 +5,16 @@ import 'dart:io';
 
 class MovieProvider extends ChangeNotifier {
   final TextEditingController movienamecontroller = TextEditingController();
-  final TextEditingController languagecontroller = TextEditingController();
-  final TextEditingController categorycontroller = TextEditingController();
   final TextEditingController certificationcontroller = TextEditingController();
   final TextEditingController descriptioncontroller = TextEditingController();
+
+  // Language dropdown
+  List<String> languages = ['English', 'Spanish', 'French', 'German', 'Chinese', 'Japanese'];
+  String? selectedLanguage;
+
+  // Category dropdown
+  List<String> categories = ['Action', 'Comedy', 'Drama', 'Thriller', 'Sci-Fi', 'Horror'];
+  String? selectedCategory;
 
   File? _image;
   File? get image => _image;
@@ -23,6 +29,16 @@ class MovieProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setLanguage(String language) {
+    selectedLanguage = language;
+    notifyListeners();
+  }
+
+  void setCategory(String category) {
+    selectedCategory = category;
+    notifyListeners();
+  }
+
   void addCast(Map<String, String> cast) {
     castList.add(cast);
     notifyListeners();
@@ -34,9 +50,9 @@ class MovieProvider extends ChangeNotifier {
   }
 
   Future<void> uploadMovieData(BuildContext context) async {
-    if (_image == null) {
+    if (_image == null || selectedLanguage == null || selectedCategory == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please select an image')),
+        const SnackBar(content: Text('Please fill all fields and select an image')),
       );
       return;
     }
@@ -68,8 +84,8 @@ class MovieProvider extends ChangeNotifier {
       // Prepare movie data
       final movieData = {
         'name': movienamecontroller.text,
-        'language': languagecontroller.text,
-        'category': categorycontroller.text,
+        'language': selectedLanguage,
+        'category': selectedCategory,
         'certification': certificationcontroller.text,
         'description': descriptioncontroller.text,
         'imageUrl': imageUrl,
@@ -95,8 +111,8 @@ class MovieProvider extends ChangeNotifier {
 
   void clearForm() {
     movienamecontroller.clear();
-    languagecontroller.clear();
-    categorycontroller.clear();
+    selectedLanguage = null;
+    selectedCategory = null;
     certificationcontroller.clear();
     descriptioncontroller.clear();
     _image = null;
