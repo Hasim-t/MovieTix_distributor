@@ -30,13 +30,16 @@ class LoginScreen extends StatelessWidget {
                 children: [
                   Image.asset("asset/Logo_white.png", width: 499, height: 300),
                   CustomTextFormField(
+                    label: 'Username',
                     controller: usernameController,
                     hintText: "Username",
+                    
                     prefixIcon: const Icon(Icons.person),
                   ),
                 const   SizedBox(height: 40),
                   CustomTextFormField(
                     controller: passwordController,
+                    label: 'Password',
                     hintText: "Password",
                     obscureText: true,
                   ),

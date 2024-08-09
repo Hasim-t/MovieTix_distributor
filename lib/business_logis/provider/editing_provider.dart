@@ -12,7 +12,7 @@ class MovieEditProvider extends ChangeNotifier {
   String? selectedLanguage;
   String? selectedCategory;
 
-  final List<String> languages = ['English', 'Spanish', 'French', 'German', 'Chinese', 'Japanese']; // Add more as needed
+  final List<String> languages = ['English', 'Malayalam', 'Telugu', 'Tamil', 'Kannada', 'Hindi']; // Add more as needed
   final List<String> categories = ['Action', 'Comedy', 'Drama', 'Thriller', 'Sci-Fi', 'Horror']; // Add more as needed
 
   File? _image;

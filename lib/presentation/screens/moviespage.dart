@@ -76,8 +76,8 @@ class Moviespage extends StatelessWidget {
                               ),
                               child: Image.network(
                                 data['imageUrl'] ?? "asset/phot_icons.png",
-                                height: 180,
-                                width: 120,
+                                height: 120,
+                                width: 90,
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -88,42 +88,52 @@ class Moviespage extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    "Movie name:" + data['name'],
+                                    "Movie name: ${data['name']}",
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 18,
+                                      fontSize: 16,
                                       color: MyColor().white,
                                     ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
-                                  SizedBox(height: 8),
-                                  Text("Language: " + data['language'],
+                                  SizedBox(height: 4),
+                                  Text("Language: ${data['language']}",
                                       style: TextStyle(
-                                          color: MyColor().white.withOpacity(0.7))),
-                                  Text("category: " + data['category'],
+                                          color: MyColor().white.withOpacity(0.7),
+                                          fontSize: 12)),
+                                  Text("Category: ${data['category']}",
                                       style: TextStyle(
-                                          color: MyColor().white.withOpacity(0.7))),
-                                  Text("certification: " + data['certification'],
+                                          color: MyColor().white.withOpacity(0.7),
+                                          fontSize: 12)),
+                                  Text("Certification: ${data['certification']}",
                                       style: TextStyle(
-                                          color: MyColor().white.withOpacity(0.7))),
+                                          color: MyColor().white.withOpacity(0.7),
+                                          fontSize: 12)),
                                 ],
                               ),
                             ),
-                            IconButton(
-                              icon: Icon(Icons.delete, color: Colors.red),
-                              onPressed: () => movieListProvider.deleteMovie(
-                                  document.id, data['imageUrl'], context),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                IconButton(
+                                  icon: Icon(Icons.delete, color: Colors.red),
+                                  onPressed: () => movieListProvider.deleteMovie(
+                                      document.id, data['imageUrl'], context),
+                                ),
+                                IconButton(
+                                  onPressed: () {
+                                    Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => Editingscreen(
+                                        documentId: document.id,
+                                        movieData: data,
+                                      ),
+                                    ));
+                                  },
+                                  icon: const Icon(Icons.edit, color: Colors.white),
+                                )
+                              ],
                             ),
-                            IconButton(
-                              onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => Editingscreen(
-                                    documentId: document.id,
-                                    movieData: data,
-                                  ),
-                                ));
-                              },
-                              icon: const Icon(Icons.edit),
-                            )
                           ],
                         ),
                       ),

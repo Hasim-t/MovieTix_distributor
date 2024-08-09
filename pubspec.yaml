@@ -49,6 +49,9 @@ dependencies:
   image_picker: ^1.0.4
   cached_network_image: ^3.3.1
   table_calendar: ^3.1.2
+  heif_converter: ^1.0.0
+  flutter_image_compress: ^2.3.0
+  
 
 dev_dependencies:
   flutter_test:

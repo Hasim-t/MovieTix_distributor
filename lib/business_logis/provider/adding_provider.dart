@@ -9,7 +9,7 @@ class MovieProvider extends ChangeNotifier {
   final TextEditingController descriptioncontroller = TextEditingController();
 
   // Language dropdown
-  List<String> languages = ['English', 'Spanish', 'French', 'German', 'Chinese', 'Japanese'];
+  List<String> languages = ['English', 'Malayalam', 'Telugu', 'Tamil', 'Kannada', 'Hindi'];
   String? selectedLanguage;
 
   // Category dropdown

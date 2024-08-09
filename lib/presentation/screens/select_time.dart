@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:movietix_distributor/presentation/constants/colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:movietix_distributor/presentation/constants/colors.dart'; // Adjust the import path as needed
 
 class SelectTime extends StatefulWidget {
   final String movieId;
@@ -192,10 +192,15 @@ class _SelectTimeState extends State<SelectTime> {
         scheduleData[date.toIso8601String()] = times;
       });
 
+      print('Saving data for movieId: ${widget.movieId}, screenId: ${widget.screenId}, ownerId: ${widget.ownerId}');
+      print('Data being saved: $scheduleData');
+
       await movieScheduleRef.set({
         'movie_id': widget.movieId,
         'schedules': scheduleData,
       }, SetOptions(merge: true));
+
+      print('Data saved successfully');
 
     } catch (e) {
       print('Error saving to Firebase: $e');
@@ -205,11 +210,19 @@ class _SelectTimeState extends State<SelectTime> {
     }
   }
 
-  void _showAddTimeDialog(BuildContext context) {
-  
+  Future<void> _showAddTimeDialog(BuildContext context) async {
+    final TimeOfDay? pickedTime = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
+
+    if (pickedTime != null) {
+      setState(() {
+        final newTime = pickedTime.format(context);
+        _availableTimes.add(newTime);
+      });
+    }
   }
-
-
 
   DateTime _normalizeDate(DateTime date) {
     return DateTime(date.year, date.month, date.day);
