@@ -19,6 +19,56 @@ class ScreenDeatials extends StatelessWidget {
     required this.screenId,
   }) : super(key: key);
 
+  Future<void> deleteMovieSchedule(String movieScheduleId) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('owners')
+          .doc(ownerId)
+          .collection('screens')
+          .doc(screenId)
+          .collection('movie_schedules')
+          .doc(movieScheduleId)
+          .delete();
+    } catch (e) {
+      print('Error deleting movie schedule: $e');
+    }
+  }
+Future<void> extendMovieSchedule(String movieScheduleId, DateTime newDate, List<String> newShowtimes) async {
+  try {
+    // Fetch current schedule
+    DocumentSnapshot doc = await FirebaseFirestore.instance
+        .collection('owners')
+        .doc(ownerId)
+        .collection('screens')
+        .doc(screenId)
+        .collection('movie_schedules')
+        .doc(movieScheduleId)
+        .get();
+
+    Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+    Map<String, dynamic> schedules = data['schedules'] as Map<String, dynamic>;
+
+   
+    String newDateString = DateFormat('yyyy-MM-dd').format(newDate);
+    
+  
+    schedules[newDateString] = newShowtimes;
+
+    // Update Firestore document
+    await FirebaseFirestore.instance
+        .collection('owners')
+        .doc(ownerId)
+        .collection('screens')
+        .doc(screenId)
+        .collection('movie_schedules')
+        .doc(movieScheduleId)
+        .update({'schedules': schedules});
+
+  } catch (e) {
+    print('Error extending movie schedule: $e');
+  }
+}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,9 +151,11 @@ class ScreenDeatials extends StatelessWidget {
               return SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
-                    var movieSchedule = movieSchedules[index].data() as Map<String, dynamic>;
-                    var movieId = movieSchedule['movie_id'] as String;
-                    var schedules = movieSchedule['schedules'] as Map<String, dynamic>;
+                    var movieSchedule = movieSchedules[index];
+                    var movieScheduleId = movieSchedule.id;
+                    var movieScheduleData = movieSchedule.data() as Map<String, dynamic>;
+                    var movieId = movieScheduleData['movie_id'] as String;
+                    var schedules = movieScheduleData['schedules'] as Map<String, dynamic>;
 
                     return FutureBuilder<DocumentSnapshot>(
                       future: FirebaseFirestore.instance.collection('movies').doc(movieId).get(),
@@ -137,6 +189,92 @@ class ScreenDeatials extends StatelessWidget {
                             title: Text(
                               movieName,
                               style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
+                            ),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                IconButton(
+  icon: Icon(Icons.calendar_today, color: Colors.blue),
+  onPressed: () async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now().add(Duration(days: 365)),
+    );
+    if (picked != null) {
+      List<String> newShowtimes = await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          List<String> tempShowtimes = [];
+          return AlertDialog(
+            title: Text("Add Showtimes"),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text("Enter showtimes for ${DateFormat('yyyy-MM-dd').format(picked)}"),
+                ElevatedButton(
+                  child: Text("Add Showtime"),
+                  onPressed: () async {
+                    TimeOfDay? time = await showTimePicker(
+                      context: context,
+                      initialTime: TimeOfDay.now(),
+                    );
+                    if (time != null) {
+                      tempShowtimes.add("${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}");
+                    }
+                  },
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                child: Text("Cancel"),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+              TextButton(
+                child: Text("Confirm"),
+                onPressed: () => Navigator.of(context).pop(tempShowtimes),
+              ),
+            ],
+          );
+        },
+      );
+      
+      if (  newShowtimes.isNotEmpty) {
+        await extendMovieSchedule(movieScheduleId, picked, newShowtimes);
+      }
+    }
+  },
+),
+                                IconButton(
+                                  icon: Icon(Icons.delete, color: Colors.red),
+                                  onPressed: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: Text("Delete Movie Schedule"),
+                                          content: Text("Are you sure you want to delete this movie schedule?"),
+                                          actions: [
+                                            TextButton(
+                                              child: Text("Cancel"),
+                                              onPressed: () => Navigator.of(context).pop(),
+                                            ),
+                                            TextButton(
+                                              child: Text("Delete"),
+                                              onPressed: () {
+                                                deleteMovieSchedule(movieScheduleId);
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  },
+                                ),
+                              ],
                             ),
                             children: schedules.entries.map((entry) {
                               var date = DateTime.parse(entry.key);

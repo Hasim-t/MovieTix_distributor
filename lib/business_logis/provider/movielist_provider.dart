@@ -16,7 +16,7 @@ class MovieListProvider extends ChangeNotifier {
         await FirebaseStorage.instance.refFromURL(imageUrl).delete();
       }
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Movie deleted successfully')),
+        const SnackBar(content: Text('Movie deleted successfully')),
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(

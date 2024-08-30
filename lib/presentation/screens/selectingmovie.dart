@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:movietix_distributor/business_logis/provider/selecting_movie_controller.dart';
 import 'package:movietix_distributor/presentation/constants/colors.dart';
 import 'package:movietix_distributor/business_logis/provider/movielist_provider.dart';
 import 'package:movietix_distributor/presentation/screens/select_time.dart';
 import 'package:movietix_distributor/presentation/widgets/movies_card.dart';
 import 'package:provider/provider.dart';
 
-class Selectingmovie extends StatefulWidget {
+
+class Selectingmovie extends StatelessWidget {
   final String screenId;
   final String ownerId;
 
@@ -17,20 +19,28 @@ class Selectingmovie extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _SelectingmovieState createState() => _SelectingmovieState();
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (_) => MovieSelectionProvider(),
+      child: _SelectingmovieContent(screenId: screenId, ownerId: ownerId),
+    );
+  }
 }
 
-class _SelectingmovieState extends State<Selectingmovie> {
-  String? selectedMovieId;
+class _SelectingmovieContent extends StatelessWidget {
+  final String screenId;
+  final String ownerId;
 
-  void selectMovie(String movieId) {
-    setState(() {
-      selectedMovieId = movieId;
-    });
-  }
+  const _SelectingmovieContent({
+    Key? key,
+    required this.screenId,
+    required this.ownerId,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final movieSelectionProvider = Provider.of<MovieSelectionProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Select Movie", style: TextStyle(color: MyColor().white)),
@@ -73,8 +83,8 @@ class _SelectingmovieState extends State<Selectingmovie> {
                         Map<String, dynamic> data = document.data() as Map<String, dynamic>;
                         return MovieCard(
                           data: data,
-                          isSelected: selectedMovieId == movieId,
-                          onSelect: () => selectMovie(movieId),
+                          isSelected: movieSelectionProvider.selectedMovieId == movieId,
+                          onSelect: () => movieSelectionProvider.selectMovie(movieId),
                         );
                       },
                     ),
@@ -86,15 +96,15 @@ class _SelectingmovieState extends State<Selectingmovie> {
                       style: ElevatedButton.styleFrom(
                         minimumSize: Size(double.infinity, 50),
                       ),
-                      onPressed: selectedMovieId != null
+                      onPressed: movieSelectionProvider.selectedMovieId != null
                           ? () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => SelectTime(
-                                    movieId: selectedMovieId!,
-                                    screenId: widget.screenId,
-                                    ownerId: widget.ownerId,
+                                    movieId: movieSelectionProvider.selectedMovieId!,
+                                    screenId: screenId,
+                                    ownerId: ownerId,
                                   ),
                                 ),
                               );

@@ -37,7 +37,7 @@ class TheaterScreen extends StatelessWidget {
               return ExpansionTile(
                 title: Text(
                   owner['name'] ?? 'Unknown Owner',
-                  style: TextStyle(
+                  style:  TextStyle(
                       color: Colors.white, fontWeight: FontWeight.bold),
                 ),
                 children: [
@@ -62,7 +62,7 @@ class TheaterScreen extends StatelessWidget {
                           screensSnapshot.data!.docs.isEmpty) {
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Text('No theaters found for this owner',
+                          child: Text('No Seats found for this Theater',
                               style: TextStyle(color: Colors.white70)),
                         );
                       }

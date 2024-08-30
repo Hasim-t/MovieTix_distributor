@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:movietix_distributor/business_logis/provider/adding_provider.dart';
 import 'package:movietix_distributor/business_logis/provider/authprovider.dart';
 import 'package:movietix_distributor/business_logis/provider/bottom_provider.dart';
+import 'package:movietix_distributor/business_logis/provider/fetchupcomgprovider.dart';
 
 import 'package:movietix_distributor/business_logis/provider/movielist_provider.dart';
+import 'package:movietix_distributor/business_logis/provider/upcoming.dart';
 import 'package:movietix_distributor/data/repositories/firebase_options.dart';
 import 'package:movietix_distributor/presentation/screens/splash.dart';
 import 'package:provider/provider.dart';
@@ -28,7 +30,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context)=>BottomProvider()),
         ChangeNotifierProvider(create: (context)=>MovieProvider()),
         ChangeNotifierProvider(create: (context)=>MovieListProvider()),
-        
+        ChangeNotifierProvider(create: (context)=>UpcomingProvider()),
+        ChangeNotifierProvider(create: (context)=>UpcomingMoviesProvider()),
 
       ],
       child: MaterialApp(
